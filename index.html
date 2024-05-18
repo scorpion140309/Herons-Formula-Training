@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Canvas with MathJax Equations</title>
+	<link rel="stylesheet" href="styles.css">
+	<!-- load MathJax library -->
+	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+	<script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+	<!-- canvas -->
+	<canvas id="triangleCanvas" width="480" height="320"></canvas>
+
+	<!-- formula -->
+	<div class="equation-container" id="equationContainer"></div>
+
+	<!-- prime factarization -->
+	<script src="calcPrimeFactorization.js"></script>
+
+	<!-- draw a triangle -->
+	<script src="triangle.js"></script>
+
+	<!-- mathjax -->
+	<script src="mathjaxEquations.js"></script>
+
+	<!-- set canvas settings -->
+	<script src="myCanvas.js"></script>
+
+	<!-- button -->
+	<div id="button-container">
+		<button id="back-to-parent-site-button" onclick="location.href='../math/'">Back to Home</button>
+		<button id="reset-button" onclick="resetAll()">Reset All</button>
+		<button id="generate-button" onclick="generateEquation()">Generate</button>
+		<button id="toggle-button" onclick="toggleAnswer()">Toggle Answer</button>
+		<button id="clear-button"  onclick="clearCanvas()">Clear</button>
+	</div>
+
+	<div id="canvas-container">
+		<canvas id="canvas"  width="1200" height="600"></canvas>
+	</div>
+
+	<script>
+		//
+		const canvas = new myCanvas('canvas');
+		generateEquation()
+
+		// 
+		function generateEquation()
+		{
+			//Create an instance of the Triangle class and specify the canvas ID and scale
+			let triangle = new Triangle('triangleCanvas', 24);
+
+			// draw the triangle
+			triangle.draw();
+
+			// size
+			let sideLengths = triangle.getSideLengths();
+			let a = sideLengths.sideA;
+			let b = sideLengths.sideB;
+			let c = sideLengths.sideC;
+
+			// formula
+			generateMathJax(a, b, c);
+		}
+
+		// toggle (switch)
+		function toggleAnswer() {
+			let equationContainer = document.getElementById('equationContainer');
+			if (equationContainer.style.display === 'none' || equationContainer.style.display === '') {
+				equationContainer.style.display = 'inline-block';
+			} else {
+				equationContainer.style.display = 'none';
+			}
+		}
+
+		// show / hide an answer
+		function setShowHideEquation(aFlag) {
+			let equationContainer = document.getElementById('equationContainer');
+			if (aFlag) {
+				equationContainer.style.display = 'inline-block';
+			} else {
+				equationContainer.style.display = 'none';
+			}
+		}
+
+		//
+		function clearCanvas() {
+			canvas.clearCanvas();
+		}
+		//
+		function resetAll() {
+			setShowHideEquation(false);
+			clearCanvas();
+			generateEquation();
+		}
+	</script>
+
+</body>
+</html>
