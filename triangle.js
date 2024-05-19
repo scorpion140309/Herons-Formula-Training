@@ -29,9 +29,6 @@ class Triangle {
                            adjustedCoordinates.pointBx, adjustedCoordinates.pointBy, 
                            adjustedCoordinates.pointCx, adjustedCoordinates.pointCy);
 
-        // Display the angles
-        //this.displayAngles(angleA, angleB, angleC, adjustedCoordinates);
-
         // Display the length of each side
         this.displaySideLength(sideA, sideB, sideC, adjustedCoordinates);
     }
@@ -87,7 +84,8 @@ class Triangle {
 
         // Calculate diff
         const marginLeft = 64;
-        let diffX = marginLeft - Math.min(pointAx, pointBx, pointCx);
+		const triangleCx = (Math.min(pointAx, pointBx, pointCx) + Math.max(pointAx, pointBx, pointCx)) / 2;
+        let diffX = centerX - triangleCx;
         const marginTop = 32;
         let diffY = marginTop - Math.min(pointAy, pointBy, pointCy);
 
@@ -120,8 +118,8 @@ class Triangle {
         let { pointAx, pointAy, pointBx, pointBy, pointCx, pointCy } = adjustedCoordinates;
 
         // Position adjustment for text
-        let textOffsetAx = -32;
-        let textOffsetAy = 32;
+        let textOffsetAx = -16;
+        let textOffsetAy = 16;
         let textOffsetB = 16;
         let textOffsetC = -64;
 
@@ -151,35 +149,6 @@ class Triangle {
         this.ctx.fillStyle = prevColor;
     }
 
-    displayAngles(angleA, angleB, angleC, adjustedCoordinates) {
-        let { pointAx, pointAy, pointBx, pointBy, pointCx, pointCy } = adjustedCoordinates;
-
-        const prevColor = this.ctx.fillStyle;
-        this.ctx.fillStyle = '#0000FF'; // Color of the text (blue)
-
-        // Position adjustment for angles
-        let textOffsetAngle = 20;
-
-        // Angle A
-        let angleAx = pointAx + textOffsetAngle;
-        let angleAy = pointAy;
-        const strAngleA = "∠A = " + (angleA * 180 / Math.PI).toFixed(2) + "°";
-        this.ctx.fillText(strAngleA, angleAx, angleAy);
-
-        // Angle B
-        let angleBx = pointBx - textOffsetAngle;
-        let angleBy = pointBy + textOffsetAngle;
-        const strAngleB = "∠B = " + (angleB * 180 / Math.PI).toFixed(2) + "°";
-        this.ctx.fillText(strAngleB, angleBx, angleBy);
-
-        // Angle C
-        let angleCx = pointCx + textOffsetAngle;
-        let angleCy = pointCy + textOffsetAngle;
-        const strAngleC = "∠C = " + (angleC * 180 / Math.PI).toFixed(2) + "°";
-        this.ctx.fillText(strAngleC, angleCx, angleCy);
-
-        this.ctx.fillStyle = prevColor;
-    }
     // 外部から三角形の辺の長さを設定するメソッド
     setSideLengths(sideA, sideB, sideC) {
         this.sideA = sideA;

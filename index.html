@@ -57,10 +57,9 @@
 		<script>
 			//
 			const canvas = new myCanvas('canvas-Free');
-			//resizeCanvas('triangleCanvas', 0.25, 0.3);
 
 			// 
-			resizeCanvas('canvas-Free', 0.95, 0.4);
+			resizeCanvas('canvas-Free', 0.95, 0.8);
 			generateEquation()
 
 
@@ -71,7 +70,7 @@
 			function generateEquation()
 			{
 				//Create an instance of the Triangle class and specify the canvas ID and scale
-				let triangle = new Triangle('triangleCanvas', 16);
+				let triangle = new Triangle('triangleCanvas', 10);
 
 				// draw the triangle
 				triangle.draw();
