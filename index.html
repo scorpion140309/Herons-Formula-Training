@@ -1,100 +1,132 @@
 <!DOCTYPE html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Canvas with MathJax Equations</title>
-	<link rel="stylesheet" href="styles.css">
-	<!-- load MathJax library -->
-	<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-	<script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-</head>
-<body>
-	<!-- canvas -->
-	<canvas id="triangleCanvas" width="480" height="320"></canvas>
+<html>
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-99FK13PW8Q"></script>
+		<script>
+		  window.dataLayer = window.dataLayer || [];
+		  function gtag(){dataLayer.push(arguments);}
+		  gtag('js', new Date());
 
-	<!-- formula -->
-	<div class="equation-container" id="equationContainer"></div>
+		  gtag('config', 'G-99FK13PW8Q');
+		</script>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Canvas with MathJax Equations</title>
+		<link rel="stylesheet" href="styles.css">
+		<!-- load MathJax library -->
+		<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+	</head>
+	<body>
+		<!-- prime factarization -->
+		<script src="calcPrimeFactorization.js"></script>
 
-	<!-- prime factarization -->
-	<script src="calcPrimeFactorization.js"></script>
+		<!-- draw a triangle -->
+		<script src="triangle.js"></script>
 
-	<!-- draw a triangle -->
-	<script src="triangle.js"></script>
+		<!-- mathjax -->
+		<script src="mathjaxEquations.js"></script>
 
-	<!-- mathjax -->
-	<script src="mathjaxEquations.js"></script>
+		<!-- set canvas settings -->
+		<script src="myCanvas.js"></script>
 
-	<!-- set canvas settings -->
-	<script src="myCanvas.js"></script>
+		<!-- button -->
+		<div>
+			We use Google Analytics for access analysis. <a href="https://policies.google.com/privacy">Google Privacy Policy</a>	
+		</div>
 
-	<!-- button -->
-	<div id="button-container">
-		<button id="back-to-parent-site-button" onclick="location.href='../math/'">Back to Home</button>
-		<button id="reset-button" onclick="resetAll()">Reset All</button>
-		<button id="generate-button" onclick="generateEquation()">Generate</button>
-		<button id="toggle-button" onclick="toggleAnswer()">Toggle Answer</button>
-		<button id="clear-button"  onclick="clearCanvas()">Clear</button>
-	</div>
+		<div id="button-container">
+			<button id="back-to-parent-site-button" onclick="location.href='../math/'">Back to Home</button>
+			<button class = "normal-button" onclick="resetAll()">Reset All</button>
+			<button class = "normal-button" onclick="generateEquation()">Generate</button>
+			<button class = "normal-button" onclick="toggleAnswer()">Toggle Answer</button>
+			<button class = "normal-button" onclick="clearCanvas()">Clear a free canvas</button>
+		</div>
 
-	<div id="canvas-container">
-		<canvas id="canvas"  width="1200" height="600"></canvas>
-	</div>
 
-	<script>
-		//
-		const canvas = new myCanvas('canvas');
-		generateEquation()
+		<!-- canvas -->
+		<canvas id="triangleCanvas" width="320" height="240"></canvas>
 
-		// 
-		function generateEquation()
-		{
-			//Create an instance of the Triangle class and specify the canvas ID and scale
-			let triangle = new Triangle('triangleCanvas', 24);
+		<!-- formula -->
+		<div class="equation-container" id="equationContainer"></div>
 
-			// draw the triangle
-			triangle.draw();
+		<!-- canvas -->
+		<canvas id="canvas-Free"></canvas>
 
-			// size
-			let sideLengths = triangle.getSideLengths();
-			let a = sideLengths.sideA;
-			let b = sideLengths.sideB;
-			let c = sideLengths.sideC;
+		<script>
+			//
+			const canvas = new myCanvas('canvas-Free');
+			//resizeCanvas('triangleCanvas', 0.25, 0.3);
 
-			// formula
-			generateMathJax(a, b, c);
-		}
+			// 
+			resizeCanvas('canvas-Free', 0.95, 0.4);
+			generateEquation()
 
-		// toggle (switch)
-		function toggleAnswer() {
-			let equationContainer = document.getElementById('equationContainer');
-			if (equationContainer.style.display === 'none' || equationContainer.style.display === '') {
-				equationContainer.style.display = 'inline-block';
-			} else {
-				equationContainer.style.display = 'none';
+
+			// ウィンドウサイズ変更時にキャンバスサイズを調整
+			window.addEventListener('resize', resizeCanvas);
+
+			// 
+			function generateEquation()
+			{
+				//Create an instance of the Triangle class and specify the canvas ID and scale
+				let triangle = new Triangle('triangleCanvas', 16);
+
+				// draw the triangle
+				triangle.draw();
+
+				// size
+				let sideLengths = triangle.getSideLengths();
+				let a = sideLengths.sideA;
+				let b = sideLengths.sideB;
+				let c = sideLengths.sideC;
+
+				// formula
+				generateMathJax(a, b, c);
 			}
-		}
 
-		// show / hide an answer
-		function setShowHideEquation(aFlag) {
-			let equationContainer = document.getElementById('equationContainer');
-			if (aFlag) {
-				equationContainer.style.display = 'inline-block';
-			} else {
-				equationContainer.style.display = 'none';
+			// toggle (switch)
+			function toggleAnswer() {
+				let equationContainer = document.getElementById('equationContainer');
+				if (equationContainer.style.display === 'none' || equationContainer.style.display === '') {
+					equationContainer.style.display = 'inline-block';
+				} else {
+					equationContainer.style.display = 'none';
+				}
 			}
-		}
 
-		//
-		function clearCanvas() {
-			canvas.clearCanvas();
-		}
-		//
-		function resetAll() {
-			setShowHideEquation(false);
-			clearCanvas();
-			generateEquation();
-		}
-	</script>
+			// show / hide an answer
+			function setShowHideEquation(aFlag) {
+				let equationContainer = document.getElementById('equationContainer');
+				if (aFlag) {
+					equationContainer.style.display = 'inline-block';
+				} else {
+					equationContainer.style.display = 'none';
+				}
+			}
 
-</body>
+			//
+			function clearCanvas() {
+				canvas.clearCanvas();
+			}
+			//
+			function resetAll() {
+				setShowHideEquation(false);
+				clearCanvas();
+				generateEquation();
+			}
+			function resizeCanvas(aCanvasId, aScaleW, aScaleH) {
+				const canvas = document.getElementById(aCanvasId);
+				canvas.width = aScaleW * window.innerWidth;
+				canvas.height = aScaleH * window.innerHeight;
+
+				// ここでキャンバスに描画を行います
+				const ctx = canvas.getContext('2d');
+				ctx.fillStyle = 'white';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+			}
+		</script>
+
+	</body>
 </html>

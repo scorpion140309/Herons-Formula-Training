@@ -122,13 +122,13 @@ class Triangle {
         // Position adjustment for text
         let textOffsetAx = -32;
         let textOffsetAy = 32;
-        let textOffsetB = 32;
+        let textOffsetB = 16;
         let textOffsetC = -64;
 
         // Display the length of each side outside the triangle
         const prevColor = this.ctx.fillStyle;
         this.ctx.fillStyle = '#FF0000'; // Color of the text (red)
-        this.ctx.font = '24px Arial'; // Font size and type
+        this.ctx.font = '16px Arial'; // Font size and type
 
         // Side A
         let textAx = (pointBx + pointCx) / 2 + textOffsetAx;
